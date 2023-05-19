@@ -1,4 +1,4 @@
-package uz.online.study_sets.exp;
+package uz.online.study_sets.common.exception;
 
 public class FileNotFoundException extends RuntimeException {
     public FileNotFoundException(String message) {

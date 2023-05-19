@@ -1,4 +1,4 @@
-package uz.online.study_sets.exp;
+package uz.online.study_sets.common.exception;
 
 public class FileTypeIncorrectException extends RuntimeException {
 

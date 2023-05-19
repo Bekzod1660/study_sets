@@ -26,9 +26,6 @@ import java.util.List;
 public class TopicService {
     private final TopicRepository repository;
     private final ContentService contentService;
-    private final AttachRepository repository1;
-    private static final String url = "F:\\AA PROJECT\\study_sets\\src\\main\\resources\\templates\\imag";
-
 
 
 
