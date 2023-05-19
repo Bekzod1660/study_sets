@@ -1,24 +1,16 @@
 package uz.online.study_sets.sevice;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.FileCopyUtils;
 import uz.online.study_sets.common.exception.RecordNotFountException;
 import uz.online.study_sets.common.util.SecurityUtils;
 import uz.online.study_sets.dto.ContentDto;
 import uz.online.study_sets.dto.TopicDto;
-import uz.online.study_sets.entity.AttachEntity;
 import uz.online.study_sets.entity.TopicEntity;
-import uz.online.study_sets.repository.AttachRepository;
-import uz.online.study_sets.repository.ChapRepository;
 import uz.online.study_sets.repository.TopicRepository;
-import uz.online.study_sets.repository.UserRepository;
 
-import java.io.FileInputStream;
 import java.util.List;
 
 @Service

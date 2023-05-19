@@ -1,10 +1,7 @@
 package uz.online.study_sets.entity;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import uz.online.study_sets.constants.TableNames;
 import uz.online.study_sets.dto.ContentDto;
-import uz.online.study_sets.dto.TopicDto;
 import uz.online.study_sets.entity.base.BaseServerModifierEntity;
 import jakarta.persistence.*;
 import lombok.*;

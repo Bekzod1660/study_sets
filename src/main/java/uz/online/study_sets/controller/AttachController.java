@@ -1,60 +1,68 @@
 package uz.online.study_sets.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
-
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import uz.online.study_sets.dto.attachDto.AttachDownloadDTO;
-import uz.online.study_sets.dto.attachDto.AttachResponseDTO;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import uz.online.study_sets.dto.response.HttpResponse;
 import uz.online.study_sets.sevice.AttachService;
 
 @RestController
-@RequestMapping("/attach")
+@RequestMapping("/api/vi/attach")
 @RequiredArgsConstructor
+@Tag(name = "attach Controller", description = "This Controller for Attach")
 public class AttachController {
+    private final AttachService attachService;
+//    private final ContentService contentService;
 
-    private final AttachService service;
+   @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "This method for ADD", description = "This method Attach ADD")
+    @PostMapping("/add")
+    public HttpResponse<Object> save(MultipartHttpServletRequest multipartFile) {
+        HttpResponse<Object> response = new HttpResponse<>(true);
+        try {
 
-    @PostMapping("/upload")
-    public ResponseEntity<?> upload(@RequestParam MultipartFile file){
-        AttachResponseDTO attach = service.saveToSystem(file);
-        return ResponseEntity.ok().body(attach);
+            if (attachService.save(multipartFile)>0) {
+
+                return response.code(HttpResponse.Status.OK).body(true).success(true);
+            }
+        } catch (Exception ex) {
+            response.code(HttpResponse.Status.INTERNAL_SERVER_ERROR);
+        }
+        return response;
     }
+    @Operation(summary = "This method for ADD", description = "This method Attach ADD")
+    @GetMapping("/get/{id}")
+    public HttpResponse<Object> get(@PathVariable("id") Long id,HttpServletResponse response1) {
+        HttpResponse<Object> response = new HttpResponse<>(true);
+        try {
+            attachService.getAttachById(id,response1);
 
-
-    @GetMapping(value = "/public/open/{id}", produces = MediaType.ALL_VALUE)
-    public byte[] open(@PathVariable("id") Long id) {
-        return service.open(id);
+        } catch (Exception ex) {
+            response.code(HttpResponse.Status.INTERNAL_SERVER_ERROR);
+        }
+        return response;
     }
-
-
-    @GetMapping("/download/{id}")
-    public ResponseEntity<Resource> download(@PathVariable("id") Long id) {
-        AttachDownloadDTO result = service.download(id);
-
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType(result.getContentType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + result.getResource().getFilename() + "\"").body(result.getResource());
-    }
-
-
-
-    @GetMapping("/get")
-    public ResponseEntity<?> getWithPage(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
-        Page<AttachResponseDTO> result = service.getWithPage(page, size);
-        return ResponseEntity.ok(result);
-    }
-
-
+    @Operation(summary = "This user for delete", description = "This method is designed to delete a Chap by ID")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable("id") Long id) {
-        String result = service.deleteById(id);
-        return ResponseEntity.ok(result);
+    public HttpResponse<Object> deleteById(@PathVariable("id") Long id) {
+        HttpResponse<Object> response = new HttpResponse<>(true);
+        try {
+           if ( attachService.deleteById(id)){
+               return response.code(HttpResponse.Status.OK).body(true).success(true);
+
+           }
+
+        } catch (Exception ex) {
+            response.code(HttpResponse.Status.INTERNAL_SERVER_ERROR);
+        }
+        return response;
     }
 
 }

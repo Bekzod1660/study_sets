@@ -10,11 +10,8 @@ import java.time.LocalDateTime;
 @Setter
 public class AttachResponseDTO  extends BaseServerModifierDto {
     private String originalName;
-    private String path;
     private Long size;
-    private String extension;
-    private Double duration;
+
     private String name;
-    private LocalDateTime createdData;
-    private String url;
+
 }

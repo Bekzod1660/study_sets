@@ -32,8 +32,8 @@ public class ContentService {
         ContentEntity contentEntity = dto.toEntity();
         List<AttachEntity>attachEntityList=new ArrayList<>();
         for (Long attach:dto.getAttachIdList()){
-            AttachEntity attachEntity = attachRepository.findById(attach).get();
-            attachEntityList.add(attachEntity);
+           // AttachEntity attachEntity = attachRepository.findById(attach).get();
+          //  attachEntityList.add(attachEntity);
         }
         contentEntity.setAttachEntityList(attachEntityList);
         contentEntity.forCreate(SecurityUtils.getUserId());
